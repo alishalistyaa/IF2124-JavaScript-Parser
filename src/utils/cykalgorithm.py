@@ -30,7 +30,7 @@ def parsingCYK(inputCode, grammarDictionary):
             idxrow -= 1
   
     # Grammar yang benar apabila terdapat S pada kotak CYKTabel paling puncak
-    if 'Dict' in T[0][inputCodeLength-1]:
+    if 'START' in CYKTable[0][inputCodeLength-1]:
         print("Accepted")
     else:
         print("Not Accepted")
