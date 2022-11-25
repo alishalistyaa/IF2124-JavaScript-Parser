@@ -16,5 +16,7 @@ switch(x) {
     case 3:
     
 }
-
+function a(x) {
+    return;
+}
 //anaksetan
