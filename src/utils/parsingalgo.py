@@ -35,56 +35,59 @@ def parsingCYK(inputCode, grammarDictionary):
         print("Not Accepted")
       
 
-# Konversi CFG to CNF
 def convertGrammar(grammar):
-    global grammarDict
-    idx = 0
-    checkUnitProd = []
-    res = []
-    
-    # Mengecek grammar
-    for aturan in grammar:
-        new_aturan = []
-        # STEP 1: Eliminasi Unit Productions
-        if len(aturan) == 2 and not aturan[1][0].islower() :
-            checkUnitProd.append(aturan)
-            # Masukkan ke dalam aturan baru
-            if aturan[0] not in grammarDict:
-                grammarDict[aturan[0]] = []
-            grammarDict[aturan[0]].append(aturan[1:])
-            continue
+  global grammarDict
+  idx = 0
+  unitProductions, res = [], []
+  for rule in grammar:
+    new_rules = []
+    # buat yang cuma satu nonterminal/terminal di kanan
+    if len(rule) == 2 and not rule[1][0].islower() :
+      unitProductions.append(rule)
+      if rule[0] not in grammarDict:
+        grammarDict[rule[0]] = []
+      grammarDict[rule[0]].append(rule[1:])
+      continue
+    # Proses if lebih dari 3 nonterminalnya ini bakal di split jadi cuma 3 doang  
+    while len(rule) > 3:
+      new_rules.append([f"{rule[0]}{idx}", rule[1], rule[2]])
+      rule = [rule[0]] + [f"{rule[0]}{idx}"] + rule[3:]
+      idx += 1
+    if rule:
+      if rule[0] not in grammarDict:
+        grammarDict[rule[0]] = []
+      grammarDict[rule[0]].append(rule[1:])
+      res.append(rule)
+    if new_rules:
+      for i in range(len(new_rules)):
+        res.append(new_rules[i])
 
-        # Eliminasi jika menghasilkan variabel lebih dari 3  
-        while len(aturan) > 3:
-            new_aturan.append([f"{aturan[0]}{idx}", aturan[1], aturan[2]])
-            aturan = [aturan[0]] + [f"{aturan[0]}{idx}"] + aturan[3:]
-            idx += 1
+  # Proses cuma yang ada 1 non terminal di kanan
+  while unitProductions:
+    rule = unitProductions.pop() 
+    if rule[1] in grammarDict:
+      for item in grammarDict[rule[1]]:
+        new_rule = [rule[0]] + item
+        # nonterminal dikanan bakal dirubah either kalo panjangnya 3 / ada terminal
+        if len(new_rule) > 2 or new_rule[1][0].islower():
+          res.append(new_rule)
 
-        if aturan:
-            # Masukkan ke dalam aturan baru
-            if aturan[0] not in grammarDict:
-                grammarDict[aturan[0]] = []
-            grammarDict[aturan[0]].append(aturan[1:])
-            res.append(aturan)
+        #Kalo cuma 2 tp dia bukan terminal masukin lg ke production ujungnya bakal dirubah jadi terminal
+        else:
+          unitProductions.append(new_rule)
+        if rule[0] not in grammarDict:
+          grammarDict[rule[0]] = []
+        grammarDict[rule[0]].append(rule[1:])
+  return res
 
-        if new_aturan:
-            for i in range(len(new_aturan)):
-                res.append(new_aturan[i])
-
-    # Eliminasi Unit Productions
-    while checkUnitProd:
-        aturan = checkUnitProd.pop() 
-        if aturan[1] in grammarDict:
-            for item in grammarDict[aturan[1]]:
-                aturan_prod = [aturan[0]] + item
-                # nonterminal dikanan bakal dirubah either kalo panjangnya 3 / ada terminal
-                if len(aturan_prod) > 2 or aturan_prod[1][0].islower():
-                    res.append(aturan_prod)
-                #Kalo cuma 2 tp dia bukan terminal masukin lg ke production ujungnya bakal dirubah jadi terminal
-                else:
-                    checkUnitProd.append(aturan_prod)
-                # Masukkan ke grammar baru
-                if aturan[0] not in grammarDict:
-                    grammarDict[aturan[0]] = []
-                grammarDict[aturan[0]].append(aturan[1:])
-    return res
+def makeDictionary(grammar):
+  dict = {}
+  for aturan in grammar :
+    dict[str(aturan[0])] = []
+  for aturan in grammar :
+    elm = []
+    for idxRule in range(1, len(aturan)) :
+      apd = aturan[idxRule]
+      elm.append(apd)
+    dict[str(aturan[0])].append(elm)
+  return dict
