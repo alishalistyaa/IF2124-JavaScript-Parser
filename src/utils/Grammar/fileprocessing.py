@@ -35,69 +35,60 @@ def readGrammarFile(filename):
       barisConverted.append(splitBaris)
   return barisConverted
 
-# Konversi CFG to CNF
-def convertGrammar(grammar):
+#Adding rule to global var
+def addGrammarRule(rule):
   global grammarDict
-  idx = 0
-  checkUnitProd = []
-  res = []
   
-  # Mengecek grammar
-  for aturan in grammar:
-      new_aturan = []
-      # STEP 1: Eliminasi Unit Productions
-      if len(aturan) == 2 and not aturan[1][0].islower() :
-          checkUnitProd.append(aturan)
-          # Masukkan ke dalam aturan baru
-          if aturan[0] not in grammarDict:
-            grammarDict[aturan[0]] = []
-          grammarDict[aturan[0]].append(aturan[1:])
-          continue
+  if rule[0] not in grammarDict:
+    grammarDict[rule[0]] = []
+  grammarDict[rule[0]].append(rule[1:])
 
-      # Eliminasi jika menghasilkan variabel lebih dari 3  
-      while len(aturan) > 3:
-        new_aturan.append([f"{aturan[0]}{idx}", aturan[1], aturan[2]])
-        aturan = [aturan[0]] + [f"{aturan[0]}{idx}"] + aturan[3:]
+def convertGrammar(grammar):
+    global grammarDict
+    idx = 0
+    unitProductions, res = [], []
+    for rule in grammar:
+      new_rules = []
+      # buat yang cuma satu nonterminal/terminal di kanan
+      if len(rule) == 2 and not rule[1][0].islower() :
+        unitProductions.append(rule)
+        addGrammarRule(rule)
+        continue
+      # Proses if lebih dari 3 nonterminalnya ini bakal di split jadi cuma 3 doang  
+      while len(rule) > 3:
+        
+        new_rules.append([f"{rule[0]}{idx}", rule[1], rule[2]])
+        rule = [rule[0]] + [f"{rule[0]}{idx}"] + rule[3:]
         idx += 1
+      if rule:
+        addGrammarRule(rule)
+        res.append(rule)
+      if new_rules:
+        for i in range(len(new_rules)):
+          res.append(new_rules[i])
 
-      if aturan:
-        # Masukkan ke dalam aturan baru
-        if aturan[0] not in grammarDict:
-            grammarDict[aturan[0]] = []
-        grammarDict[aturan[0]].append(aturan[1:])
-        res.append(aturan)
-
-      if new_aturan:
-          for i in range(len(new_aturan)):
-              res.append(new_aturan[i])
-
-  # Eliminasi Unit Productions
-  while checkUnitProd:
-    print("hello")
-    aturan = checkUnitProd.pop() 
-    if aturan[1] in grammarDict:
-        for item in grammarDict[aturan[1]]:
-            
-            aturan_prod = [aturan[0]] + item
-            # nonterminal dikanan bakal dirubah either kalo panjangnya 3 / ada terminal
-            if len(aturan_prod) > 2 or aturan_prod[1][0].islower():
-              res.append(aturan_prod)
-            #Kalo cuma 2 tp dia bukan terminal masukin lg ke production ujungnya bakal dirubah jadi terminal
-            else:
-              checkUnitProd.append(aturan_prod)
-            # Masukkan ke grammar baru
-            if aturan[0] not in grammarDict:
-                grammarDict[aturan[0]] = []
-            grammarDict[aturan[0]].append(aturan[1:])
-  return res
+    # Proses cuma yang ada 1 non terminal di kanan
+    while unitProductions:
+      rule = unitProductions.pop() 
+      if rule[1] in grammarDict:
+        for item in grammarDict[rule[1]]:
+          new_rule = [rule[0]] + item
+          # nonterminal dikanan bakal dirubah either kalo panjangnya 3 / ada terminal
+          if len(new_rule) > 2 or new_rule[1][0].islower():
+            res.append(new_rule)
+          #Kalo cuma 2 tp dia bukan terminal masukin lg ke production ujungnya bakal dirubah jadi terminal
+          else:
+            unitProductions.append(new_rule)
+          addGrammarRule(new_rule)
+    return res
 
 # Menuliskan grammar jadi txt
 def grammattotxt(grammar):
     file = open('cnf.txt', 'w')
     for aturan in grammar:
-        file.write(rule[0])
+        file.write(aturan[0])
         file.write(" -> ")
-        for i in rule[1:]:
+        for i in aturan[1:]:
             file.write(i)
             file.write(" ")
         file.write("\n")
