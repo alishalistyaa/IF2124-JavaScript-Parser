@@ -10,4 +10,9 @@ function satu(s = 2){
 
 if (x += 2){
 }
+
+switch(x) { 
+    case 1:
+}
+
 print(satu());

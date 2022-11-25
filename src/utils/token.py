@@ -10,9 +10,7 @@ listToken = [
     
     # COMMENTS
     (r'//[^\n]*', None), # comment sebaris, ignore
-    (r'/\*[(?!(\*\\))\w\W]*\*\\', None),
-    (r'[\n]+[ \t]*/\*[(?!(\*\\))\w\W]*\*\\', None), # comment multiline, ignore
-    (r'/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/', None),
+    (r'/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/', None), # comment multiline, ignore
     
     # Operator
     
@@ -31,7 +29,7 @@ listToken = [
     (r'!', "LNOT"),
 
     # ASSIGNMENT -> BINARY OP
-    (r'\*\*=', "EXPA"),
+    (r'\*\*=', "EXPNA"),
     (r'\*=', "MULA"),
     (r'/=', "DIVA"),
     (r'%=', "REMA"),
@@ -50,29 +48,26 @@ listToken = [
     (r'<=', "LE"),
     (r'>=', "GE"),
 
-    # ARITH -> BINARY OP 
+    # ARITH -> BINARY OP
     (r'\+', "ADD"), # biner, kalo uner jadi conversion
     (r'\-', "SUB"), # biner, kalo uner jadi conversion
     (r'/', "DIV"),
-    (r'\*\*', "EXP"),
+    (r'\*\*', "EXPN"),
     (r'\*', "MUL"),
     (r'\%', "REM"),
 
-    # BITWISE SHIFT -> BINARY OP
+    # BITWISE SHIFT -> BINARY OP DONE
     (r'<<', "LS"),
     (r'>>>', "URS"),
     (r'>>', "RS"),
 
     # RELATIONAL -> BINARY OP
-    (r'in', "IN"),
-    (r'instanceof', "INSOF"),
     (r'<', "L"),
     (r'>', "G"),
 
     # BINARY LOGICAL -> BINARY OP
     (r'&&', "LAND"),
     (r'\|\|', "LOR"),
-    (r'\?\?', "NCO"),
 
     # BINARY BITWISE -> BINARY OP
     (r'&', "BAND"),
@@ -110,6 +105,7 @@ listToken = [
     (r'\bcase\b', "CASE"),
     (r'\bdefault\b', "DEFAULT"),
     
+    (r'\bdo\b', "DO"),
     (r'\bwhile\b', "WHILE"),
     (r'\bfor\b', "FOR"),
     (r'\bbreak\b', "BREAK"),
@@ -127,6 +123,7 @@ listToken = [
     (r'\bdelete\b', "DELETE"),
     (r'\bfinally\b', "FINALLY"),
     (r'\bthrow\b', "THROW"),
+    (r'\bnew\b', "NEW"),
     (r'\bnull\b', "NULL"),
 
     # TYPES
@@ -138,8 +135,8 @@ listToken = [
     (r'\`[^\'\n]*\`', "STR"),
     (r'\`[(?!(\`))\w\W]*\`', "MLSTR"),
 
-    # VARIABLE NAME
-    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "VARNAME"),
+    # IDENTIFIER
+    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "IDEN")
 ]
 
 def compileAllPattern(listToken):
