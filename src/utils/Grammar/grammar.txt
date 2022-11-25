@@ -7,7 +7,7 @@ EOP -> SCOLON
 EOP -> SCOLON ENTER
 NEWLINE -> newline
 INCR -> incr
-DECR -> decor
+DECR -> decr
 SEQ -> seq
 SINEQ -> sineq
 EQ -> eq
@@ -51,7 +51,7 @@ QUESTM -> questm
 COLON -> colon
 SCOLON -> scolon
 DOT -> dot
-COMMA -> comm
+COMMA -> comma
 KSO -> kso
 KSC -> ksc
 KLO -> klo
@@ -77,7 +77,7 @@ TRUE -> true
 FALSE -> false
 SET_FUNC -> function
 RETURN -> return
-DELETE -> delete
+DELETE_STMT -> delete
 FINALLY -> finally
 THROW -> throw
 NEW -> new
@@ -203,7 +203,7 @@ EXCP -> TRY_STMT FINALLY_STMT
 EXCP -> TRY_STMT CATCH_STMT
 EXCP -> TRY_STMT
 TRY_STMT -> EXCP
-TRY_STMT -> try KKO FUNC_STMT KKC
+TRY_STMT -> TRY KKO FUNC_STMT KKC
 FINALLY_STMT -> FINALLY KKO FUNC_STMT 
 CATCH_STMT -> CATCH KLO IDEN KLC KKO FUNC_STMT KKC
 CATCH_STMT -> CATCH KKO FUNC_STMT 
@@ -235,4 +235,3 @@ CASE -> CASE DATA COLON LOOP_STMT
 CASE -> CASE DATA COLON 
 DEFAULT -> DEFAULT_STMT COLON LOOP_STMT
 DELETE -> DELETE IDEN EOP
-DELETE_STMT -> delete
