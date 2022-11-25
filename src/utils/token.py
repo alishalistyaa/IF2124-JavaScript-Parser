@@ -5,7 +5,7 @@ listToken = [
     # Others
     
     # TABS & NEWLINE
-    (r'\n', "NEWLINE"),
+    (r'\n', "newline"),
     (r'[ \t]+', None), # tabs & indent diignore
     
     # COMMENTS
@@ -15,128 +15,128 @@ listToken = [
     # Operator
     
     # INC DEC -> UNARY
-    (r'\+\+', "INCR"),
-    (r'\-\-', "DECR"),
+    (r'\+\+', "incr"),
+    (r'\-\-', "decr"),
 
     # EQUALITY -> BINARY OP
-    (r'===', "SEQ"),
-    (r'!==', "SINEQ"),
-    (r'==', "EQ"),
-    (r'!=', "INEQ"),
+    (r'===', "seq"),
+    (r'!==', "sineq"),
+    (r'==', "eq"),
+    (r'!=', "ineq"),
 
     # UNARY
-    (r'~', "BNOT"),
-    (r'!', "LNOT"),
+    (r'~', "bnot"),
+    (r'!', "lnot"),
 
     # ASSIGNMENT -> BINARY OP
-    (r'\*\*=', "EXPNA"),
-    (r'\*=', "MULA"),
-    (r'/=', "DIVA"),
-    (r'%=', "REMA"),
-    (r'\+=', "ADDA"),
-    (r'-=', "SUBA"),
-    (r'<<=', "LSA"),
-    (r'>>>=', "URSA"),
-    (r'>>=', "RSA"),
-    (r'&&=', "LANDA"),
-    (r'\|\|=', "LORA"),
-    (r'&=', "BANDA"),
-    (r'\^=', "BXORA"),
-    (r'\|=', "BORA"),
+    (r'\*\*=', "expna"),
+    (r'\*=', "mula"),
+    (r'/=', "diva"),
+    (r'%=', "rema"),
+    (r'\+=', "adda"),
+    (r'-=', "suba"),
+    (r'<<=', "lsa"),
+    (r'>>>=', "ursa"),
+    (r'>>=', "rsa"),
+    (r'&&=', "landa"),
+    (r'\|\|=', "lora"),
+    (r'&=', "banda"),
+    (r'\^=', "bxora"),
+    (r'\|=', "bora"),
     
     # RELATIONAL BINARY
-    (r'<=', "LE"),
-    (r'>=', "GE"),
+    (r'<=', "le"),
+    (r'>=', "ge"),
 
     # ARITH -> BINARY OP
-    (r'\+', "ADD"), # biner, kalo uner jadi conversion
-    (r'\-', "SUB"), # biner, kalo uner jadi conversion
-    (r'/', "DIV"),
-    (r'\*\*', "EXPN"),
-    (r'\*', "MUL"),
-    (r'\%', "REM"),
+    (r'\+', "add"), # biner, kalo uner jadi conversion
+    (r'\-', "sub"), # biner, kalo uner jadi conversion
+    (r'/', "div"),
+    (r'\*\*', "expn"),
+    (r'\*', "mul"),
+    (r'\%', "rem"),
 
     # BITWISE SHIFT -> BINARY OP DONE
-    (r'<<', "LS"),
-    (r'>>>', "URS"),
-    (r'>>', "RS"),
+    (r'<<', "ls"),
+    (r'>>>', "urs"),
+    (r'>>', "rs"),
 
     # RELATIONAL -> BINARY OP
-    (r'<', "L"),
-    (r'>', "G"),
+    (r'<', "l"),
+    (r'>', "g"),
 
     # BINARY LOGICAL -> BINARY OP
-    (r'&&', "LAND"),
-    (r'\|\|', "LOR"),
+    (r'&&', "land"),
+    (r'\|\|', "lor"),
 
     # BINARY BITWISE -> BINARY OP
-    (r'&', "BAND"),
-    (r'\|', "BOR"),
-    (r'\^', "BXOR"),
+    (r'&', "band"),
+    (r'\|', "bor"),
+    (r'\^', "bxor"),
 
     # ASSIGNMENT BINARY
-    (r'=', "A"),
+    (r'=', "a"),
     
     # LAIN LAIN
-    (r'\?', "QUESTM"),
-    (r'\:', "COLON"),
-    (r'\;', "SCOLON"),
-    (r'\.', "DOT"),
-    (r'\,', "COMMA"),
+    (r'\?', "questm"),
+    (r'\:', "colon"),
+    (r'\;', "scolon"),
+    (r'\.', "dot"),
+    (r'\,', "comma"),
     
     # KURUNG
-    (r'\[', "KSO"),
-    (r'\]', "KSC"),
-    (r'\(', "KLO"),
-    (r'\)', "KLC"),
-    (r'\{', "KKO"),
-    (r'\}', "KKC"),
+    (r'\[', "kso"),
+    (r'\]', "ksc"),
+    (r'\(', "klo"),
+    (r'\)', "klc"),
+    (r'\{', "kko"),
+    (r'\}', "kkc"),
     
     # KEYWORDS
     
-    (r'\bconst\b', "CONST"),
-    (r'\bvar\b', "VAR"),
-    (r'\blet\b', "LET"),
+    (r'\bconst\b', "const"),
+    (r'\bvar\b', "var"),
+    (r'\blet\b', "let"),
     
-    (r'\bif\b', "IF"),
-    (r'\belse\b', "ELSE"),
+    (r'\bif\b', "if"),
+    (r'\belse\b', "else"),
     
-    (r'\bswitch\b', "SWITCH"),
-    (r'\bcase\b', "CASE"),
-    (r'\bdefault\b', "DEFAULT"),
+    (r'\bswitch\b', "switch"),
+    (r'\bcase\b', "case"),
+    (r'\bdefault\b', "default"),
     
-    (r'\bdo\b', "DO"),
-    (r'\bwhile\b', "WHILE"),
-    (r'\bfor\b', "FOR"),
-    (r'\bbreak\b', "BREAK"),
-    (r'\bcontinue\b', "CONTINUE"),
+    (r'\bdo\b', "do"),
+    (r'\bwhile\b', "while"),
+    (r'\bfor\b', "for"),
+    (r'\bbreak\b', "break"),
+    (r'\bcontinue\b', "continue"),
     
-    (r'\btry\b', "TRY"),
-    (r'\bcatch\b', "CATCH"),
+    (r'\btry\b', "try"),
+    (r'\bcatch\b', "catch"),
     
-    (r'\btrue\b', "TRUE"),
-    (r'\bfalse\b', "FALSE"),
+    (r'\btrue\b', "true"),
+    (r'\bfalse\b', "false"),
     
-    (r'\bfunction\b', "FUNCTION"),
-    (r'\breturn\b', "RETURN"),
+    (r'\bfunction\b', "function"),
+    (r'\breturn\b', "return"),
     
-    (r'\bdelete\b', "DELETE"),
-    (r'\bfinally\b', "FINALLY"),
-    (r'\bthrow\b', "THROW"),
-    (r'\bnew\b', "NEW"),
-    (r'\bnull\b', "NULL"),
+    (r'\bdelete\b', "delete"),
+    (r'\bfinally\b', "finally"),
+    (r'\bthrow\b', "throw"),
+    (r'\bnew\b', "new"),
+    (r'\bnull\b', "null"),
 
     # TYPES
-    (r'[\+\-]?[0-9]*\.[0-9]+', "NUM"),
-    (r'[\+\-]?[1-9][0-9]+', "NUM"),
-    (r'[\+\-]?[0-9]', "NUM"),
-    (r'\"[^\"\n]*\"', "STR"),
-    (r'\'[^\'\n]*\'', "STR"),
-    (r'\`[^\'\n]*\`', "STR"),
-    (r'\`[(?!(\`))\w\W]*\`', "MLSTR"),
+    (r'[\+\-]?[0-9]*\.[0-9]+', "num"),
+    (r'[\+\-]?[1-9][0-9]+', "num"),
+    (r'[\+\-]?[0-9]', "num"),
+    (r'\"[^\"\n]*\"', "str"),
+    (r'\'[^\'\n]*\'', "str"),
+    (r'\`[^\'\n]*\`', "str"),
+    (r'\`[(?!(\`))\w\W]*\`', "mlstr"),
 
     # IDENTIFIER
-    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "IDEN")
+    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "iden")
 ]
 
 def compileAllPattern(listToken):
