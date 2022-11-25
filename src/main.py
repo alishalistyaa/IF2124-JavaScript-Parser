@@ -3,6 +3,8 @@
 
 import os
 from utils.token import getTokens
+from utils.Grammar.fileprocessing import *
+from utils.parsingalgo import parsingCYK
 
 # splash screen intro
 
@@ -19,8 +21,11 @@ while (not(os.path.isfile(filename) and filename.endswith(".js"))):
 tokens, errInfo = getTokens(filename)
 
 if (errInfo[1] == -1):
-    # lanjut parsing
+    print("TOKENS")
     print(tokens)
+    cfg = readGrammarFile(os.path.join(os.getcwd(),"utils/Grammar/grammar.txt"))
+    cnf = convertGrammar(cfg)
+    parsingCYK(tokens, cnf)
 else:
     print(f"Syntax Error: Karakter ilegal terdeteksi pada {errInfo[0]}, baris ke-{errInfo[1]}, kolom ke-{errInfo[2]}.")
     
