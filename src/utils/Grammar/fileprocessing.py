@@ -94,4 +94,4 @@ def grammattotxt(grammar):
         file.write("\n")
     file.close()
 
-grammattotxt(convertGrammar(readGrammarFile('gare.txt')))
+grammattotxt(convertGrammar(readGrammarFile('grammar.txt')))
