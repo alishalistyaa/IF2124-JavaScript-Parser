@@ -89,3 +89,5 @@ def animatedbmo_end(nama_folder, repeat = 2):
     ''')
 
 animatedbmo_end("../data/Z_BMOframes_End")
+# animatedbmo_start("..\data/Z_BMOframes_Start")
+# loading()
