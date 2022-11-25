@@ -93,5 +93,3 @@ def grammattotxt(grammar):
             file.write(" ")
         file.write("\n")
     file.close()
-
-grammattotxt(convertGrammar(readGrammarFile('grammar.txt')))

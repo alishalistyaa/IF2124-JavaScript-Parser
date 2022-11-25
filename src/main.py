@@ -23,7 +23,7 @@ tokens, errInfo = getTokens(filename)
 if (errInfo[1] == -1):
     print("TOKENS")
     print(tokens)
-    cfg = readGrammarFile(os.path.join(os.getcwd(),"utils/Grammar/grammar.txt"))
+    cfg = readGrammarFile(os.path.join(os.getcwd(),"utils/Grammar/revG.txt"))
     cnf = convertGrammar(cfg)
     parsingCYK(tokens, cnf)
 else:
