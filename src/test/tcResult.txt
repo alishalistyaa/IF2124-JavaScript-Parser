@@ -1,10 +1,10 @@
 TC01: acc
 TC02: acc
-TC03: 
-TC04: 
-TC05: 
-TC06:
-TC07: 
+TC03: acc
+TC04: acc
+TC05: acc
+TC06: acc
+TC07: acc
 TC08:
 TC09:
 TC10: 
