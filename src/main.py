@@ -2,21 +2,23 @@
 # Program yang memparser java script
 
 import os
-from utils.token import createTextTokens
+from utils.token import getTokens
 
 # splash screen intro
-print(os.getcwd())
-filename = 'hehe.js'
-filename = input("Masukkan nama file .js yang akan di-parse: ")
-filename = os.path.join(os.getcwd(),filename)
-while (not(os.path.isfile(filename))):
-    print(f"File {filename} tidak ditemukan. Silakan masukkan nama file yang benar.")
-    filename = input("Masukkan nama file .js yang akan di-parse: ")
-    
-tokens, errInfo = createTextTokens(filename)
-print(tokens)
 
-if (errInfo[1] != 1):
+print("Pastikan file sudah ada di folder src/test.")
+filename = input("Masukkan nama file javascript yang akan di-parse: ")
+
+filename = os.path.join(os.getcwd(),"test/" + filename)
+
+while (not(os.path.isfile(filename) and filename.endswith(".js"))):
+    print(f"\nFile tidak ditemukan atau tidak valid. Silakan masukkan nama file yang benar.\n")
+    print("Pastikan file sudah ada di folder src/test.")
+    filename = input("Masukkan nama file javascript yang akan di-parse: ")
+    
+tokens, errInfo = getTokens(filename)
+
+if (errInfo[1] == -1):
     # lanjut parsing
     print(tokens)
 else:

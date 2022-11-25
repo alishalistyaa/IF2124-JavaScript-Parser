@@ -2,68 +2,85 @@ import re
 
 # Untuk mengimplementasikan FA untuk variabel dan operator, digunakan RegEx
 listToken = [
+    # Others
+    
+    # TABS & NEWLINE
+    (r'\n', "NEWLINE"),
+    (r'[ \t]+', None), # tabs & indent diignore
+    
+    # COMMENTS
+    (r'//[^\n]*', None), # comment sebaris, ignore
+    (r'/\*[(?!(\*\\))\w\W]*\*\\', None),
+    (r'[\n]+[ \t]*/\*[(?!(\*\\))\w\W]*\*\\', None), # comment multiline, ignore
+    (r'/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/', None),
+    
     # Operator
     
     # INC DEC -> UNARY
     (r'\+\+', "INCR"),
     (r'\-\-', "DECR"),
-    
+
+    # EQUALITY -> BINARY OP
+    (r'===', "SEQ"),
+    (r'!==', "SINEQ"),
+    (r'==', "EQ"),
+    (r'!=', "INEQ"),
+
     # UNARY
     (r'~', "BNOT"),
     (r'!', "LNOT"),
-    
-    # ARITH -> BINARY OP 
-    (r'\+(?!\=)', "ADD"), # biner, kalo uner jadi conversion
-    (r'\-(?!\=)', "SUB"), # biner, kalo uner jadi conversion
-    (r'/(?!\=)', "DIV"),
-    (r'\*(?!\=)', "MUL"),
-    (r'\%(?!\=)', "REM"),
-    (r'\*\*(?!\=)', "EXP"),
-
-    # RELATIONAL -> BINARY OP
-    (r'in', "IN"),
-    (r'instanceof', "INSOF"),
-    (r'<(?!\=)', "L"),
-    (r'>(?!\=)', "G"),
-    (r'<=', "LE"),
-    (r'>=', "GE"),
-
-    # EQUALITY -> BINARY OP
-    (r'==(?!\=)', "EQ"),
-    (r'!=(?!\=)', "INEQ"),
-    (r'===', "SEQ"),
-    (r'!==', "SINEQ"),
-
-    # BITWISE SHIFT -> BINARY OP
-    (r'<<', "LS"),
-    (r'>>(?!\>)', "RS"),
-    (r'>>>', "URS"),
-
-    # BINARY BITWISE -> BINARY OP
-    (r'&(?!\=)', "BAND"),
-    (r'\|(?!\=)', "BOR"),
-    (r'\^(?!\=)', "BXOR"),
-
-    # BINARY LOGICAL -> BINARY OP
-    (r'&&(?!\=)', "LAND"),
-    (r'\|\|(?!\=)', "LOR"),
-    (r'\?\?', "NCO"),
 
     # ASSIGNMENT -> BINARY OP
-    (r'=', "A"),
+    (r'\*\*=', "EXPA"),
     (r'\*=', "MULA"),
     (r'/=', "DIVA"),
     (r'%=', "REMA"),
     (r'\+=', "ADDA"),
     (r'-=', "SUBA"),
     (r'<<=', "LSA"),
-    (r'>>=', "RSA"),
     (r'>>>=', "URSA"),
+    (r'>>=', "RSA"),
+    (r'&&=', "LANDA"),
+    (r'\|\|=', "LORA"),
     (r'&=', "BANDA"),
     (r'\^=', "BXORA"),
     (r'\|=', "BORA"),
-    (r'&&=', "LANDA"),
-    (r'\|\|=', "LORA"),
+    
+    # RELATIONAL BINARY
+    (r'<=', "LE"),
+    (r'>=', "GE"),
+
+    # ARITH -> BINARY OP 
+    (r'\+', "ADD"), # biner, kalo uner jadi conversion
+    (r'\-', "SUB"), # biner, kalo uner jadi conversion
+    (r'/', "DIV"),
+    (r'\*\*', "EXP"),
+    (r'\*', "MUL"),
+    (r'\%', "REM"),
+
+    # BITWISE SHIFT -> BINARY OP
+    (r'<<', "LS"),
+    (r'>>>', "URS"),
+    (r'>>', "RS"),
+
+    # RELATIONAL -> BINARY OP
+    (r'in', "IN"),
+    (r'instanceof', "INSOF"),
+    (r'<', "L"),
+    (r'>', "G"),
+
+    # BINARY LOGICAL -> BINARY OP
+    (r'&&', "LAND"),
+    (r'\|\|', "LOR"),
+    (r'\?\?', "NCO"),
+
+    # BINARY BITWISE -> BINARY OP
+    (r'&', "BAND"),
+    (r'\|', "BOR"),
+    (r'\^', "BXOR"),
+
+    # ASSIGNMENT BINARY
+    (r'=', "A"),
     
     # LAIN LAIN
     (r'\?', "QUESTM"),
@@ -111,19 +128,18 @@ listToken = [
     (r'\bfinally\b', "FINALLY"),
     (r'\bthrow\b', "THROW"),
     (r'\bnull\b', "NULL"),
-    
-    # Others
-    
-    # TABS & NEWLINE
-    (r'\n', "NEWLINE"),
-    (r'[ \t]+', None), # tabs & indent diignore
-    
-    # COMMENTS
-    (r'//[^\n]*', None), # comment sebaris, ignore
-    (r'[\n]+[ \t]*/\*[(?!(\"\"\"))\w\W]*\*\\', None), # comment multiline, ignore
-    
+
+    # TYPES
+    (r'[\+\-]?[0-9]*\.[0-9]+', "NUM"),
+    (r'[\+\-]?[1-9][0-9]+', "NUM"),
+    (r'[\+\-]?[0-9]', "NUM"),
+    (r'\"[^\"\n]*\"', "STR"),
+    (r'\'[^\'\n]*\'', "STR"),
+    (r'\`[^\'\n]*\`', "STR"),
+    (r'\`[(?!(\`))\w\W]*\`', "MLSTR"),
+
     # VARIABLE NAME
-    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "VARNAME")
+    (r'[A-Za-z_\$][A-Za-z0-9_\$]*', "VARNAME"),
 ]
 
 def compileAllPattern(listToken):
@@ -134,7 +150,7 @@ def compileAllPattern(listToken):
 
 listRegex = compileAllPattern(listToken)
 
-def createTextTokens(filename):
+def getTokens(filename):
     # Membaca keseluruhan file
     file = open(filename, 'r', encoding='utf8')
     text = file.read()
@@ -149,7 +165,6 @@ def createTextTokens(filename):
     kolom = 1
     
     while (textIdx < len(text) and foundAll):
-        print(textIdx)
         # restart tiap newline
         if text[textIdx] == '\n':
             baris += 1
