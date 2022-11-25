@@ -12,9 +12,9 @@ def parsingCYK(inputCode, grammarDictionary):
 
     # Pemrosesan secara traversal per karakter input
     for j in range(0, inputCodeLength):
-        for producer, productions in grammarDictionary.items(): #R.Items berfungsi untuk memanggil semua pasangan key-value yang ada di dictionary grammar, traversal untuk setiap grammar
+        for producer, productions in grammarDictionary.items(): #grammarDictionary.Items berfungsi untuk memanggil semua pasangan key-value yang ada di dictionary grammar, traversal untuk setiap grammar
             for production in productions: # traversal untuk setiap value yang dimiliki satu key
-                if len(production) == 1 and production[0] == inputCodeLength[j]: #Jika producer menghasilkan terminal, karena harus menghasilkan terminal
+                if len(production) == 1 and production[0] == inputCode[j]: #Jika producer menghasilkan terminal, karena harus menghasilkan terminal
                     if not producer in CYKTable[j][j]: #Jika belum ada di CYKTable, masukkan ke CYKTable
                         CYKTable[j][j].append(producer)
 
@@ -30,7 +30,7 @@ def parsingCYK(inputCode, grammarDictionary):
             idxrow -= 1
   
     # Grammar yang benar apabila terdapat S pada kotak CYKTabel paling puncak
-    if 'Dict' in T[0][inputCodeLength-1]:
+    if 'START' in CYKTable[0][inputCodeLength-1]:
         print("Accepted")
     else:
         print("Not Accepted")
