@@ -98,5 +98,3 @@ def grammartotxt(grammar):
             file.write(" ")
         file.write("\n")
     file.close()
-
-# grammartotxt(convertGrammar(readGrammarFile('grammar.txt')))

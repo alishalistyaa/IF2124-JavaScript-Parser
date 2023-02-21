@@ -8,16 +8,16 @@ from utils.parsingalgo import *
 
 # splash screen intro
 
-print("Pastikan file sudah ada di folder src/test.")
+print("Pastikan file sudah ada di folder src/TestCase.")
 filename = input("Masukkan nama file javascript yang akan di-parse: ")
 
-filename = os.path.join(os.getcwd() + "/test/" + filename)
+filename = os.path.join(os.getcwd() + "/TestCase/" + filename)
 
 while (not(os.path.isfile(filename) and filename.endswith(".js"))):
     print(f"\nFile tidak ditemukan atau tidak valid. Silakan masukkan nama file yang benar.\n")
-    print("Pastikan file sudah ada di folder src/test.")
+    print("Pastikan file sudah ada di folder src/TestCase.")
     filename = input("Masukkan nama file javascript yang akan di-parse: ")
-    filename = os.path.join(os.getcwd() + "/test/" + filename)
+    filename = os.path.join(os.getcwd() + "/TestCase/" + filename)
     
 tokens, errInfo = getTokens(filename)
 
